@@ -14,15 +14,17 @@ import environ
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = Path(__file__).resolve().parent.parent  # pointe vers 'src'
+
 env = environ.Env()
-environ.Env.read_env(env_file=str(BASE_DIR / 'src' / 'SoigneMoi' / '.env'))
+environ.Env.read_env(env_file=str(BASE_DIR / 'SoigneMoi' / '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY=env('SECRET_KEY')
+SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env.bool('DEBUG', False)
@@ -59,7 +61,7 @@ ROOT_URLCONF = 'SoigneMoi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR.parent / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -80,7 +82,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': env('NAME'),
         'USER': env('USER'),
-        'PASSWORD': env('password'),
+        'PASSWORD': env('PASSWORD'),
         'HOST': env('HOST'),
         'PORT': env('PORT')
 
@@ -125,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATICFILES_DIRS = [BASE_DIR.parent / 'static']
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 
