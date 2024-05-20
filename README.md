@@ -13,7 +13,7 @@
 
 1. **Cloner le dépôt**
    
-   Commencez par cloner le dépôt GitHub contenant votre application Django sur votre machine locale.
+   Commencez par cloner le dépôt GitHub contenant votre application Django sur votre machine locale, dans un dossier '~/SoigneMoi/'
    ```
    git clone https://github.com/zemaf/ECF_SoigneMoi_github.git
    cd SoigneMoi
