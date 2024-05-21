@@ -38,10 +38,11 @@ class CustomManager(BaseUserManager):  # on crée un manager qui va gérer notre
 
 class CustomUser(AbstractBaseUser):  # modèle de base à compléter et comprenant le mot de passe
 
-    nom = models.CharField(max_length=150, blank=False)
-    prenom = models.CharField(max_length=150, blank=False)
-    adresse = models.CharField(max_length=150, blank=False)
-    email = models.EmailField(max_length=150, unique=True, blank=False)
+    genre = models.CharField(max_length=10)
+    nom = models.CharField(max_length=50, blank=False)
+    prenom = models.CharField(max_length=50, blank=False)
+    adresse = models.CharField(max_length=100, blank=False)
+    email = models.EmailField(max_length=50, unique=True, blank=False)
     is_active = models.BooleanField(default=True)  # l'utilisateur a un compte actif
     is_staff = models.BooleanField(default=False)  # a accès à l'interface d'administration
     is_admin = models.BooleanField(default=False)  # a les droits d'administration ou non
