@@ -19,7 +19,7 @@ class Utilisateur(CustomUser):
 
 class Specialite(models.Model):
     specialite_id = models.AutoField(primary_key=True)
-    nom = models.CharField(max_length=50, unique=True)
+    nom = models.CharField(max_length=50, unique=True, verbose_name="Spécialité")
 
     def __str__(self):
         return f"{self.nom}"
@@ -94,11 +94,11 @@ class Avis(models.Model):
 
 class Sejour(models.Model):
     sejour_id = models.AutoField(primary_key=True)
-    date_entree = models.DateField()
-    date_sortie = models.DateField()
+    date_entree = models.DateField(verbose_name="Date d'entrée")
+    date_sortie = models.DateField(verbose_name="Date de sortie")
     motif = models.TextField()
     user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
-    specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE)
+    specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
 
     def __str__(self):
         return f" Séjour de {self.user_id}, du {self.date_entree} au {self.date_sortie}, en {self.specialite_id}."

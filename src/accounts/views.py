@@ -33,7 +33,7 @@ def signup(request):
         form = CustomSignupForm(request.POST)
         if form.is_valid():
             form.save()
-            return HttpResponse('hey you!')
+            return HttpResponse('vous êtes inscrit!')
         else:
             context['errors'] = form.errors  # form.errors est lui-même un dictionnaire
     form = CustomSignupForm()
