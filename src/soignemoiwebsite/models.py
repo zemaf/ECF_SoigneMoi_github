@@ -41,7 +41,7 @@ class Medecin(CustomUser):
     admin = models.ForeignKey(Administrateur, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
-        return f"Dr {self.nom} {self.prenom}, spécialité :{self.specialite_id}"
+        return f"Dr {self.nom} {self.prenom}, spécialité : {self.specialite}"
 
 
 class Intervention(models.Model):
@@ -101,4 +101,4 @@ class Sejour(models.Model):
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
 
     def __str__(self):
-        return f" Séjour de {self.user_id}, du {self.date_entree} au {self.date_sortie}, en {self.specialite_id}."
+        return f" Séjour de {self.user}, du {self.date_entree} au {self.date_sortie}, en {self.specialite}."
