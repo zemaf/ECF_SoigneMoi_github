@@ -1,6 +1,6 @@
 from django import forms
 
-from soignemoiwebsite.models import Sejour, Medecin
+from soignemoiwebsite.models import Sejour, Medecin, Specialite
 
 
 class CreateSejour(forms.ModelForm):
@@ -29,3 +29,8 @@ class CreateSejour(forms.ModelForm):
                 pass
         elif self.instance.pk and self.instance.specialite:
             self.fields['medecin'].queryset = self.instance.specialite.medecin_set.order_by('nom')
+
+
+class SpecialiteForm(forms.ModelForm):
+    class Meta:
+        queryset = Specialite.objects.all()

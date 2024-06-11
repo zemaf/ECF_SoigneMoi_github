@@ -15,6 +15,7 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent  # pointe vers 'src'
+print(BASE_DIR)
 
 env = environ.Env()
 environ.Env.read_env(env_file=str(BASE_DIR / 'SoigneMoi' / '.env'))
@@ -127,7 +128,6 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
-STATICFILES_DIRS = [BASE_DIR.parent / 'static']
 
 AUTH_USER_MODEL = "accounts.CustomUser"
 

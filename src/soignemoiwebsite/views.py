@@ -4,6 +4,8 @@ from django.shortcuts import render
 from soignemoiwebsite.forms import CreateSejour
 from soignemoiwebsite.models import Medecin
 
+import json
+
 
 def creation_sejour(request):
     context = {}
@@ -23,6 +25,12 @@ def creation_sejour(request):
 
 
 def ajax_load_medecins(request):
-    specialite_id = request.GET.get('specialite')
+    data = json.loads(request.body)
+    # print(f" voici le contenu de la requête POST : {request.body}")
+    specialite_id = data.get('specialite')
     medecins = Medecin.objects.filter(specialite_id=specialite_id).order_by('nom')
+    print(medecins.values())
+    # django s'attendant à un dictionnaire en paramètre de JsonResponse, comme c'est une liste, on lui indique
+    # de s'attendre à autre chose avec safe=False
     return JsonResponse(list(medecins.values('id', 'nom')), safe=False)
+
