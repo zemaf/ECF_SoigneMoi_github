@@ -7,34 +7,13 @@
 			{{ form.as_p }}
 			<input id="fetch-call" type="submit" value="Créer séjour">
 		</form>
-	<!--
-	<script type="text/javascript">
-        $(document).ready(function(){
-            $('#id_specialite').change(function(){
-                var url = '{% url "soignemoiwebsite:ajax_load_medecins" %}';
-                var specialiteId = $(this).val();
 
-                $.ajax({
-                    url: url,
-                    data: {
-                        'specialite': specialiteId
-                    },
-                    success: function (data) {
-                        $("#id_medecin").html('');
-                        data.forEach(function(medecin) {
-                            $("#id_medecin").append(new Option(medecin.nom, medecin.id));
-                        });
-                    }
-                });
-            });
-        });
-	</script> -->
-	<script>
-    document.getElementById('id_specialite').addEventListener('change', function() {
+<script>
+	document.getElementById('id_specialite').addEventListener('change', function() {
         const specialiteId = this.value;
         let csrfTokenValue = document.querySelector("[name=csrfmiddlewaretoken]").value;
         const url = '{% url "soignemoiwebsite:ajax_load_medecins" %}';
-        
+
 
         fetch(url, {
             method: 'POST',
@@ -48,13 +27,31 @@
         .then(data => { // Seconde instruction then
             const medecinSelect = document.getElementById('id_medecin');
             medecinSelect.innerHTML = '<option value="">----------</option>'; // affiche les tirets en attendant la sélection
-            // on boucle sur le queryset medecins de la spécialité pour les afficher
+            // On boucle sur le queryset medecins de la spécialité pour les afficher
 	        data.forEach(medecin => {
                 medecinSelect.innerHTML += `<option value="${medecin.id}">${medecin.nom}</option>`;
             });
+          });
         });
-    });
-
+    // on va maintenant récupérer l'id du médecin sélectionné pour checker son nb de patients
+    {#document.getElementById('id_medecin').addEventListener('change', function (){#}
+    {#            const medecinId = this.value;#}
+    {#            let csrfTokenValue = document.querySelector("[name=csrfmiddlewaretoken]").value;#}
+    {#            const checkUrl = '{% url "soignemoiwebsite:check_nb_patients" %}';#}
+    {#            #}
+    {#            fetch(checkUrl, {#}
+    {#                method: 'POST',#}
+	{#                headers: {#}
+    {#                    'content-type': 'application/json',#}
+    {#                    'X-CSRFToken': csrfTokenValue,#}
+    {#                },#}
+    {#                body: JSON.stringify({medecin: medecinId}) // Envoie l'ID du médecin au serveur#}
+    {#            })#}
+	{#                .then(response => response.json())#}
+	{#                .then(data => {#}
+    {#                    console.log(data);#}
+	{#                });#}
+    {#            });#}
 </script>
-	
+
 {% endblock %}

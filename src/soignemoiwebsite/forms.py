@@ -4,7 +4,7 @@ from soignemoiwebsite.models import Sejour, Medecin, Specialite
 
 
 class CreateSejour(forms.ModelForm):
-    medecin = forms.ModelChoiceField(queryset=Medecin.objects.none(), required=False)
+    medecin = forms.ModelChoiceField(queryset=Medecin.objects.none(), required=True)
 
     class Meta:
         model = Sejour
@@ -16,13 +16,12 @@ class CreateSejour(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(CreateSejour, self).__init__(*args, **kwargs)
         self.fields['medecin'].queryset = Medecin.objects.none()
-        print(self.data)
 
         if "specialite" in self.data.keys():
             print("yess")
             try:
                 specialite_id = int(self.data.get('specialite'))
-                print(f"specialité {specialite_id}")
+                print(f"specialité {specialite_id} {type(specialite_id)}")
                 self.fields['medecin'].queryset = Medecin.objects.filter(specialite_id=specialite_id).order_by('nom')
                 print(self.fields['medecin'].queryset)
             except (ValueError, TypeError):

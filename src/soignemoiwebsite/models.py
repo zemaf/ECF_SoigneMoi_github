@@ -13,6 +13,9 @@ class Administrateur(CustomUser):
 class Utilisateur(CustomUser):
     user_id = models.AutoField(primary_key=True)
 
+    class Meta:
+        verbose_name = "Visiteur"
+
     def __str__(self):
         return f" {self.genre} {self.nom} {self.prenom}"
 
