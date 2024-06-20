@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 
 from accounts.models import CustomUser
@@ -102,6 +103,13 @@ class Sejour(models.Model):
     motif = models.TextField()
     user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
+
+
+    def clean(self):
+        if self.date_entree >= self.date_sortie:
+            raise ValidationError({
+                "date_sortie": "La date de sortie doit être postérieure à l'entrée!"
+            })
 
     def __str__(self):
         return f" Séjour de {self.user}, du {self.date_entree} au {self.date_sortie}, en {self.specialite}."

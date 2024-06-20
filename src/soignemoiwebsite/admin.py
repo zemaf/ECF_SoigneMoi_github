@@ -2,6 +2,8 @@ from django.contrib import admin
 
 from soignemoiwebsite.models import (Utilisateur, Administrateur, Medecin, Medicament, Prescription,
                                      Specialite, Sejour, Avis)
+
+
 class MedecinInline(admin.TabularInline):
     model = Medecin
     extra = 1
