@@ -16,12 +16,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from accounts.views import profile
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('compte/', include('accounts.urls')),
     path('compte/', include('django.contrib.auth.urls')),
     path('', include('soignemoiwebsite.urls')),
-    path('accounts/profile/', profile),
 ]

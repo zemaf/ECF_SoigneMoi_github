@@ -48,18 +48,6 @@ class Medecin(CustomUser):
         return f"Dr {self.nom} {self.prenom}, spécialité : {self.specialite}"
 
 
-class Intervention(models.Model):
-    intervention_id = models.AutoField(primary_key=True)
-    libelle_intervention = models.CharField(max_length=100)
-    date_intervention = models.DateField()
-    user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
-    medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return (f"intervention n° {self.intervention_id}, en date du {self.date_intervention}:\n"
-                f"patient: {self.user_id}.")
-
-
 class Prescription(models.Model):
     prescription_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
@@ -103,7 +91,6 @@ class Sejour(models.Model):
     motif = models.TextField()
     user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
-
 
     def clean(self):
         if self.date_entree >= self.date_sortie:

@@ -105,32 +105,16 @@ CREATE TABLE public.prescription(
 -- Table: sejour
 ------------------------------------------------------------
 CREATE TABLE public.sejour(
-	sejour_id       SERIAL NOT NULL ,
-	date_entree     DATE  NOT NULL ,
-	date_sortie     DATE  NOT NULL ,
-	motif           VARCHAR (2000)  NOT NULL ,
-	user_id         INT  NOT NULL ,
-	specialite_id   INT  NOT NULL  ,
+	sejour_id     SERIAL NOT NULL ,
+	date_entree   DATE  NOT NULL ,
+	date_sortie   DATE  NOT NULL ,
+	motif         VARCHAR (2000)  NOT NULL ,
+	user_id       INT  NOT NULL ,
+	medecin_id    INT  NOT NULL  ,
 	CONSTRAINT sejour_PK PRIMARY KEY (sejour_id)
 
 	,CONSTRAINT sejour_utilisateur_FK FOREIGN KEY (user_id) REFERENCES public.utilisateur(user_id)
-	,CONSTRAINT sejour_specialite0_FK FOREIGN KEY (specialite_id) REFERENCES public.specialite(specialite_id)
-)WITHOUT OIDS;
-
-
-------------------------------------------------------------
--- Table: intervention
-------------------------------------------------------------
-CREATE TABLE public.intervention(
-	intervention_id        SERIAL NOT NULL ,
-	libelle_intervention   VARCHAR (100) NOT NULL ,
-	date                   DATE  NOT NULL ,
-	medecin_id             INT  NOT NULL ,
-	user_id                INT  NOT NULL  ,
-	CONSTRAINT intervention_PK PRIMARY KEY (intervention_id)
-
-	,CONSTRAINT intervention_medecin_FK FOREIGN KEY (medecin_id) REFERENCES public.medecin(medecin_id)
-	,CONSTRAINT intervention_utilisateur0_FK FOREIGN KEY (user_id) REFERENCES public.utilisateur(user_id)
+	,CONSTRAINT sejour_medecin0_FK FOREIGN KEY (medecin_id) REFERENCES public.medecin(medecin_id)
 )WITHOUT OIDS;
 
 
