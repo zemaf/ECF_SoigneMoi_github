@@ -5,14 +5,14 @@ from accounts.models import CustomUser
 
 
 class Administrateur(CustomUser):
-    admin_id = models.AutoField(primary_key=True)
+    # admin_id = models.AutoField(primary_key=True)
 
     def __str__(self):
         return f"{self.nom} {self.prenom}"
 
 
 class Utilisateur(CustomUser):
-    user_id = models.AutoField(primary_key=True)
+    # user_id = models.AutoField(primary_key=True)
 
     class Meta:
         verbose_name = "Visiteur"
@@ -39,7 +39,7 @@ class Medicament(models.Model):
 
 
 class Medecin(CustomUser):
-    medecin_id = models.AutoField(primary_key=True)
+    # medecin_id = models.AutoField(primary_key=True)
     matricule_medecin = models.CharField(max_length=50, unique=True)  # matricule déterminé par l'administrateur qui crée le médecin
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE)
     admin = models.ForeignKey(Administrateur, on_delete=models.SET_NULL, null=True, blank=True)
@@ -91,6 +91,7 @@ class Sejour(models.Model):
     motif = models.TextField()
     user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
+    medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
     def clean(self):
         if self.date_entree >= self.date_sortie:
