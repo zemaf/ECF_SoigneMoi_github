@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from soignemoiwebsite.models import (Utilisateur, Administrateur, Medecin, Medicament, Prescription,
+from soignemoiwebsite.models import (Patient, Administrateur, Medecin, Medicament, Prescription,
                                      Specialite, Sejour, Avis)
 
 
@@ -9,7 +9,7 @@ class MedecinInline(admin.TabularInline):
     extra = 1
 
 
-admin.site.register(Utilisateur)
+admin.site.register(Patient)
 admin.site.register(Administrateur)
 admin.site.register(Medecin)
 admin.site.register(Medicament)

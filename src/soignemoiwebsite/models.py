@@ -11,11 +11,11 @@ class Administrateur(CustomUser):
         return f"{self.nom} {self.prenom}"
 
 
-class Utilisateur(CustomUser):
+class Patient(CustomUser):
     # user_id = models.AutoField(primary_key=True)
 
-    class Meta:
-        verbose_name = "Visiteur"
+    # class Meta:
+    #     verbose_name = "Visiteur"
 
     def __str__(self):
         return f" {self.genre} {self.nom} {self.prenom}"
@@ -50,7 +50,7 @@ class Medecin(CustomUser):
 
 class Prescription(models.Model):
     prescription_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
+    user = models.ForeignKey(Patient, on_delete=models.CASCADE)
     date_debut_traitement = models.DateField()
     date_fin_traitement = models.DateField()
     medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
@@ -67,7 +67,7 @@ class Prescription(models.Model):
 
 class Avis(models.Model):
     avis_id = models.AutoField(primary_key=True)
-    user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
+    user = models.ForeignKey(Patient, on_delete=models.CASCADE)
     libelle = models.CharField(max_length=255)
     date = models.DateField()
     description = models.TextField()
@@ -89,7 +89,7 @@ class Sejour(models.Model):
     date_entree = models.DateField(verbose_name="Date d'entrée")
     date_sortie = models.DateField(verbose_name="Date de sortie")
     motif = models.TextField()
-    user = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
+    user = models.ForeignKey(Patient, on_delete=models.CASCADE)
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE, verbose_name="Spécialité")
     medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
