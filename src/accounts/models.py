@@ -1,10 +1,11 @@
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.core.validators import RegexValidator
 from django.db import models
 
 
 class CustomManager(BaseUserManager):  # on crée un manager qui va gérer notre modèle Visiteur customisé
     # on précise les champs qui seront nécessaires pour créer un utilisateur quelconque
-    def create_user(self, email='', nom='', prenom='', adresse='', password=None):
+    def create_user(self, email='', genre='', nom='', prenom='', adresse='', password=None):
         if not email:
             raise ValueError("Vous devez entrer un email.")
 
@@ -12,6 +13,7 @@ class CustomManager(BaseUserManager):  # on crée un manager qui va gérer notre
         # Cet attribut fait référence au modèle géré par le manager (CustomUser)
         user = self.model(
             email=self.normalize_email(email),
+            genre=genre,
             nom=nom,
             prenom=prenom,
             adresse=adresse,
@@ -38,19 +40,36 @@ class CustomManager(BaseUserManager):  # on crée un manager qui va gérer notre
 
 class CustomUser(AbstractBaseUser):  # modèle de base à compléter et comprenant le mot de passe
 
-    genre = models.CharField(max_length=10)
-    nom = models.CharField(max_length=50, blank=False)
-    prenom = models.CharField(max_length=50, blank=False)
-    adresse = models.CharField(max_length=100, blank=False)
+    nom_prenom_regex = RegexValidator(
+        regex=r"^[A-Za-zÀ-ÖØ-öø-ÿ'’-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ'’-]+)*$",
+        message="Le prénom ne peut contenir que des lettres, espaces, apostrophes ou des tirets.",
+        # code="inscription_non_valide"
+    )
+    adresse_regex= RegexValidator(
+        regex=r"^[A-Za-zÀ-ÖØ-öø-ÿ0-9'’,.\s]+$",
+        message="Mauvais format d'adresse",
+        # code="inscription_non_valide"
+        )
+    genre = models.CharField(max_length=3)
+    nom = models.CharField(max_length=50, validators=[nom_prenom_regex],
+                           help_text="uniquement lettres, espaces, apostrophes ou des tirets.",
+                           blank=False)
+    prenom = models.CharField(max_length=50, validators=[nom_prenom_regex],
+                              help_text="uniquement lettres, espaces, apostrophes ou des tirets.",
+                              blank=False)
+    adresse = models.CharField(max_length=100, validators=[adresse_regex],
+                               blank=False)
     email = models.EmailField(max_length=50, unique=True, blank=False)
     is_active = models.BooleanField(default=True)  # l'utilisateur a un compte actif
     is_staff = models.BooleanField(default=False)  # a accès à l'interface d'administration
     is_admin = models.BooleanField(default=False)  # a les droits d'administration ou non
 
-    USERNAME_FIELD = "email"  # on indique le champ qui servira de login_id (on demande le mail dans l'ECF)
-    REQUIRED_FIELDS = ["nom", "prenom"]  # champs requis lors de la création du superuser et on n'inclut pas "email" car défini dans USERNAME_FIELDS
-
-    objects = CustomManager()  # on définit le manager de notre modèle CustomUser et on utilise celui qu'on a créé au-dessus.
+    # on indique le champ qui servira de login_id (on demande le mail dans l'ECF)
+    USERNAME_FIELD = "email"
+    # champs requis lors de la création du superuser et on n'inclut pas "email" car défini dans USERNAME_FIELDS
+    REQUIRED_FIELDS = ["nom", "prenom"]
+    # on définit le manager de notre modèle CustomUser et on utilise celui qu'on a créé au-dessus
+    objects = CustomManager()
 
     class Meta:
         verbose_name = "Utilisateur"

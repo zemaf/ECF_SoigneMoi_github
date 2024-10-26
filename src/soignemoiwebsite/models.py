@@ -40,7 +40,7 @@ class Medicament(models.Model):
 
 class Medecin(CustomUser):
     # medecin_id = models.AutoField(primary_key=True)
-    matricule_medecin = models.CharField(max_length=50, unique=True)  # matricule déterminé par l'administrateur qui crée le médecin
+    matricule_medecin = models.CharField(max_length=50, unique=True)  # matricule déterminé par l'administrateur
     specialite = models.ForeignKey(Specialite, on_delete=models.CASCADE)
     admin = models.ForeignKey(Administrateur, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -55,11 +55,9 @@ class Prescription(models.Model):
     date_fin_traitement = models.DateField()
     medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
-    # class Meta:
-    #     # clé primaire composée des champs user et prescription_id
-    #     constraints = [
-    #         models.UniqueConstraint(fields=["user", "prescription_id"], name="unique_user_prescription")
-    #     ]
+    def clean(self):
+        if self.date_fin_traitement < self.date_debut_traitement:
+            raise ValidationError("La date de fin doit être postérieure à la date de début.")
 
     def __str__(self):
         return f" Ordonnance n°: {self.prescription_id} pour {self.user_id} par le Dr {self.medecin_id}."
