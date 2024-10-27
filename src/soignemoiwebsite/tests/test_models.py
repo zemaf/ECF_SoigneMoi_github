@@ -66,6 +66,7 @@ def test_custom_user_validators(custom_user):
     # Test nom et prénom validés
     assert custom_user.nom == "Dupont"
     assert custom_user.prenom == "Jean"
+    assert custom_user.adresse == "123 Rue Exemple"
 
     # Test adresse validée
     custom_user.adresse = "456 Rue de l'Exemple"
