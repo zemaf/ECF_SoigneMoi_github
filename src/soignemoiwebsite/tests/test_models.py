@@ -151,3 +151,105 @@ def test_avis_multiples_meme_patient(patient, medecin):
         )
 
     assert Avis.objects.count() == 2
+
+
+def test_patient_prescription_relation(patient, medecin):
+    """
+    Teste que l'on peut accéder aux prescriptions d'un patient via patient.prescription_set.all().
+    """
+    prescription1 = Prescription.objects.create(
+        user=patient,
+        medecin=medecin,
+        date_debut_traitement=timezone.now().date(),
+        date_fin_traitement=timezone.now().date() + timezone.timedelta(days=10)
+    )
+    prescription2 = Prescription.objects.create(
+        user=patient,
+        medecin=medecin,
+        date_debut_traitement=timezone.now().date() - timezone.timedelta(days=20),
+        date_fin_traitement=timezone.now().date() - timezone.timedelta(days=10)
+    )
+
+    # Vérifie que les prescriptions sont accessibles depuis le patient
+    prescriptions = patient.prescription_set.all()
+    assert len(prescriptions) == 2
+    assert prescription1 in prescriptions
+    assert prescription2 in prescriptions
+
+
+def test_medecin_avis_relation(medecin, patient):
+    """
+    Teste que l'on peut accéder aux avis d'un médecin via medecin.avis_set.all().
+    """
+    avis1 = Avis.objects.create(
+        user=patient,
+        medecin=medecin,
+        libelle="Consultation 1",
+        date=timezone.now().date(),
+        description="Très satisfait."
+    )
+    avis2 = Avis.objects.create(
+        user=patient,
+        medecin=medecin,
+        libelle="Consultation 2",
+        date=timezone.now().date() - timezone.timedelta(days=5),
+        description="Satisfait."
+    )
+
+    # Vérifie que les avis sont accessibles depuis le médecin
+    avis_list = medecin.avis_set.all()
+    assert len(avis_list) == 2
+    assert avis1 in avis_list
+    assert avis2 in avis_list
+
+
+def test_specialite_medecin_relation(specialite):
+    """
+    Teste que l'on peut accéder aux médecins d'une spécialité via specialite.medecin_set.all().
+    """
+    medecin1 = Medecin.objects.create(
+        email="medecin1@example.com",
+        nom="Martin",
+        prenom="Marie",
+        matricule_medecin="M12345",
+        specialite=specialite
+    )
+    medecin2 = Medecin.objects.create(
+        email="medecin2@example.com",
+        nom="Durand",
+        prenom="Sophie",
+        matricule_medecin="M67890",
+        specialite=specialite
+    )
+
+    # Vérifie que les médecins sont accessibles depuis la spécialité
+    medecins = specialite.medecin_set.all()
+    assert len(medecins) == 2
+    assert medecin1 in medecins
+    assert medecin2 in medecins
+
+
+def test_patient_sejour_relation(patient, specialite, medecin):
+    """
+    Teste que l'on peut accéder aux séjours d'un patient via patient.sejour_set.all().
+    """
+    sejour1 = Sejour.objects.create(
+        user=patient,
+        specialite=specialite,
+        medecin=medecin,
+        date_entree=timezone.now().date() - timezone.timedelta(days=10),
+        date_sortie=timezone.now().date()
+    )
+    sejour2 = Sejour.objects.create(
+        user=patient,
+        specialite=specialite,
+        medecin=medecin,
+        date_entree=timezone.now().date() - timezone.timedelta(days=30),
+        date_sortie=timezone.now().date() - timezone.timedelta(days=20)
+    )
+
+    # Vérifie que les séjours sont accessibles depuis le patient
+    sejours = patient.sejour_set.all()
+    assert len(sejours) == 2
+    assert sejour1 in sejours
+    assert sejour2 in sejours
