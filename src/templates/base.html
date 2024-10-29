@@ -1,12 +1,84 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="fr">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>SoigneMoi</title>	
+	{% block title %}
+		<title>Accueil Hopital SoigneMoi</title>
+	{% endblock %}	
+<link rel="stylesheet" href={% static 'css/style.css'%}>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 <body>
- {% block content%}
- {% endblock %}
+	    <header>
+        <nav class="navbar navbar-expand-lg">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="#">
+                    <img src={% static 'images/logo_blanc.png' %} alt="placeholder" id="img_header">
+                </a>
+                <div class="collapse navbar-collapse">
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Connexion</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Accueil</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Je crée mon compte</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Je crée mon séjour</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">À propos</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+	    
+	 {% block content%}
+	 {% endblock %}
+	    
+	<footer class="bg-dark text-white py-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 text-center mb-3">
+                    <img src={% static 'images/logo.png' %} alt="placeholder" class="img-fluid mb-2">
+                    <p>Centre Hospitalier SoigneMoi<br />Adresse : 15 Rue de l'Espoir, 59123<br />Zuydcoote</p>
+                    <div class="d-flex justify-content-center">
+                        <i class="bi bi-telephone me-2"></i>
+                        <p>03 20 55 65 75</p>
+                    </div>
+                    <a href="#" class="text-white">Mentions légales</a>
+                </div>
+                <div class="col-md-4 text-center mb-3">
+                    <img src={% static 'images/map.png' %} alt="placeholder" class="img-fluid">
+                </div>
+                <div class="col-md-4 text-center mb-3">
+                    <div class="mb-2">
+                        <i class="bi bi-envelope-fill me-2"></i>
+                        <h5>Nous contacter</h5>
+                    </div>
+                    <p>Contact</p>
+                    <p>Payer une facture</p>
+                    <p>Enquête de satisfaction</p>
+                    <div class="d-flex justify-content-center">
+                        <i class="bi bi-facebook me-3"></i>
+                        <i class="bi bi-twitter me-3"></i>
+                        <i class="bi bi-instagram me-3"></i>
+                        <i class="bi bi-linkedin"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
 </body>
 </html>

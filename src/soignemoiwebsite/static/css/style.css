@@ -1,0 +1,95 @@
+body {
+    font-family: 'Hind Madurai', sans-serif;
+}
+
+header {
+    background-color: #141E52;
+}
+
+body>header>nav>div>div>ul>li>a{
+    color: white !important;
+}
+
+#img_header {
+    width: 100px;
+}
+
+#block_pictures img {
+    width: 500px;
+}
+
+#block_text {
+    margin: 30px 0;
+}
+
+#block_text h2,
+#block_text h3 {
+    color: #0F90D9;
+}
+
+#block_text ul {
+    line-height: 2;
+    list-style: none;
+    padding-left: 0;
+}
+
+#offer_healthy {
+    background-color: #D3EBF9;
+}
+
+#offer_healthy h1 {
+    color: #850D98;
+}
+
+#container_offer_healthy p {
+    color: #850D98;
+    text-align: center;
+    margin: 16px;
+}
+
+#block_listes .listes {
+    background-color: #D3EBF9;
+    padding: 20px;
+}
+
+#block_listes .listes li {
+    color: #850D98;
+    font-size: larger;
+}
+
+footer {
+    background-color: #141E52;
+}
+
+footer .container {
+    background-color: #141E52;
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 30px;
+}
+
+footer .container .col-md-4 {
+    background-color: #FAEDFA;
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+footer .container .col-md-4 img {
+    width: 50px;
+}
+
+footer .container .col-md-4 .d-flex {
+    align-items: baseline;
+    justify-content: center;
+}
+
+footer .container .col-md-4 i {
+    color: #0F90D9;
+    font-size: 2rem;
+    margin-right: 12px;
+}
+
+body>footer>div>div>div:nth-child(2)>img{
+    width: 500px !important;
+    height: 260px;
+}
