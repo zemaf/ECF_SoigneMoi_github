@@ -1,1 +1,93 @@
-{% extends 'base.html'%}
+{% extends 'base.html' %}
+{% load static %}
+{% block content%} 
+	<main class="container mt-5">
+        <div id="block_pictures" class="d-flex justify-content-evenly">
+            <img src={% static 'images/etablissement1.png' %} alt="placeholder" class="img-fluid">
+            <img src={% static 'images/etablissement2.png' %} alt="placeholder" class="img-fluid">
+        </div>
+
+        <section id="block_text" class="text-center mt-5">
+            <div class="mb-4">
+                <h2>Bienvenue à l'Hôpital SoigneMoi</h2>
+                <p>
+                    Niché dans la pittoresque région du nord de la France, l'Hôpital SoigneMoi est un centre de soins de santé
+                    dévoué à la communauté. Fondé en 1985, notre hôpital est reconnu pour son approche centrée sur le patient,
+                    offrant des soins médicaux de haute qualité avec une touche personnelle.
+                </p>
+            </div>
+
+            <div class="mb-4">
+                <h3>Nos Services :</h3>
+                <ul class="list-unstyled">
+                    <li>Urgences 24/7 : Notre service d'urgence est prêt à répondre efficacement à toutes les urgences médicales.</li>
+                    <li>Diversité de Spécialités Médicales : Nous offrons un large éventail de soins, incluant la cardiologie, la gériatrie, et la pédiatrie.</li>
+                    <li>Équipements Modernes : Notre hôpital est équipé pour fournir des soins efficaces avec des équipements médicaux modernes.</li>
+                    <li>Soins Personnalisés : Chaque patient reçoit une attention individuelle et un plan de soins adapté à ses besoins spécifiques.</li>
+                </ul>
+            </div>
+
+            <div class="mb-4">
+                <h3>Notre engagement :</h3>
+                <ul class="list-unstyled">
+                    <li>Excellence des Soins : Nous sommes dédiés à fournir des soins de la plus haute qualité tout en assurant la sécurité et le bien-être de nos patients.</li>
+                    <li>Personnel Dévoué : Notre équipe de professionnels de santé est hautement qualifiée et engagée envers le bien-être de nos patients.</li>
+                    <li>Formation et Développement : Nous valorisons la formation continue de notre personnel pour garantir des soins de qualité.</li>
+                </ul>
+            </div>
+
+            <div class="mb-4">
+                <h3>Témoignages :</h3>
+                <ul class="list-unstyled">
+                    <li>« L'accueil chaleureux et les soins attentionnés de l'Hôpital SoigneMoi m'ont vraiment aidé dans ma guérison. » Jean L.</li>
+                    <li>« Une équipe professionnelle et des installations de qualité : je suis très satisfait des soins reçus. » Marie D.</li>
+                </ul>
+            </div>
+
+            <div class="mb-4">
+                <h3>Rejoignez notre Communauté :</h3>
+                <ul class="list-unstyled">
+                    <li>Suivez-nous sur les réseaux sociaux pour des actualités, des conseils de santé et bien plus encore.</li>
+                    <li>À l'Hôpital SoigneMoi, nous mettons tout en œuvre pour votre santé et votre bien-être.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="offer_healthy" class="my-5 py-4 bg-light">
+            <h1 class="text-center text-primary">Offre de soins</h1>
+            <div id="container_offer_healthy" class="d-flex justify-content-center align-items-center">
+                <p>
+                    Avec ses 250 lits et places d’hospitalisation, le Centre Hospitalier SoigneMoi est un établissement de santé
+                    de proximité au service de la population. Il offre une filière de prise en charge complète et diversifiée et
+                    peut répondre aux situations d’urgence. L’offre de soins est organisée en pôles, répartis sur les différents
+                    bâtiments du site.
+                </p>
+            </div>
+        </section>
+
+        <section id="block_listes" class="d-flex justify-content-evenly my-5">
+            <div class="listes bg-light p-3">
+                <ul class="list-unstyled text-center">
+                    <li>Urgences-SAMU-SMUR</li>
+                    <li>Anesthésie</li>
+                    <li>Urologie-néphrologie</li>
+                    <li>Cardiologie</li>
+                    <li>Orthopédie</li>
+                    <li>Traumatologie</li>
+                    <li>Chirurgie thoracique et vasculaire</li>
+                </ul>
+            </div>
+            <div class="listes bg-light p-3">
+                <ul class="list-unstyled text-center">
+                    <li>Psychiatrie</li>
+                    <li>Ophtalmologie</li>
+                    <li>Rhumatologie</li>
+                    <li>Centre d’hémodialyse</li>
+                    <li>Gériatrie</li>
+                    <li>Traumatologie</li>
+                    <li>Chirurgie d’urgence digestive</li>
+                </ul>
+            </div>
+        </section>
+    </main>
+{% endblock %}

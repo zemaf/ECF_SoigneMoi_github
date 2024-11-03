@@ -1,0 +1,105 @@
+/* Style global du body */
+body {
+    font-family: Arial, sans-serif; /* Police par défaut */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Centrer le formulaire horizontalement */
+    align-items: center; /* Centrer le formulaire verticalement */
+    min-height: 100vh; /* Hauteur minimale de la fenêtre */
+    background-color: #f5f5f5; /* Couleur de fond du body */
+    margin: 0; /* Suppression des marges par défaut */
+    padding: 0;
+}
+
+/* Style du conteneur du formulaire */
+.form-container {
+    background-color: #0F90D9; /* Bleu */
+    border: 5px solid #850D98; /* Bordure violette */
+    padding: 30px; /* Ajuster l'espacement interne */
+    border-radius: 12px; /* Coins arrondis */
+    max-width: 800px; /* Largeur maximum */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Effet d'ombre pour le relief */
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+/* Style du titre du formulaire */
+.form-title {
+    font-weight: bold;
+;
+    text-align: center; /* Centrer le texte */
+    color: #4B1068; /* Couleur du texte */
+    margin-top: 20px;
+    margin-bottom: 20px; /* Espacement en bas */
+}
+
+.date-input, .text-input, .motif-input {
+    grid-column: span 2; /* Alignement sur deux colonnes */
+}
+
+/* Style commun pour les groupes de champs */
+.form-group {
+    display: flex;
+    flex-direction: column; /* Organiser les éléments en colonne */
+    margin-bottom: 20px; /* Espacement entre les champs */
+}
+
+/* Style des étiquettes */
+label {
+    color: #ffffff; /* Couleur blanche */
+    margin-bottom: 5px; /* Espacement entre l'étiquette et l'input */
+}
+
+/* Style des champs de saisie de date */
+.date-input {
+    width: 184px; /* Largeur */
+    height: 48px; /* Hauteur */
+    padding: 5px; /* Espacement interne */
+    border-radius: 4px; /* Coins arrondis */
+    border: 1px solid #850D98; /* Bordure violette */
+    background-color: #FAEDFA; /* Couleur de fond rose */
+    outline: none; /* Suppression du contour par défaut */
+}
+
+/* Style des champs de saisie et des sélecteurs */
+.text-input {
+    width: 175px; /* Largeur */
+    height: 44px; /* Hauteur */
+    padding: 5px; /* Espacement interne */
+    border-radius: 4px; /* Coins arrondis */
+    border: 1px solid #850D98; /* Bordure violette */
+    background-color: #FAEDFA; /* Couleur de fond rose */
+    outline: none; /* Suppression du contour par défaut */
+}
+
+/* Style de la zone de texte pour le motif du séjour */
+.motif-input {
+    width: 456px; /* Largeur */
+    height: 76px; /* Hauteur */
+    padding: 5px; /* Espacement interne */
+    border-radius: 4px; /* Coins arrondis */
+    border: 1px solid #850D98; /* Bordure violette */
+    background-color: #FAEDFA; /* Couleur de fond rose */
+    outline: none; /* Suppression du contour par défaut */
+    resize: none; /* Désactiver la redimension de la zone de texte */
+}
+
+/* Style du bouton de soumission */
+.submit-button {
+    display: block; /* Pour le centrer */
+    width: 100px; /* Largeur */
+    margin: 20px auto 20px; /* Marges : en haut 20px, au centre auto */
+    padding: 10px; /* Espacement interne */
+    background-color: #0F90D9; /* Couleur de fond bleue */
+    color: #ffffff; /* Couleur du texte */
+    border: none; /* Suppression de la bordure */
+    border-radius: 4px; /* Coins arrondis */
+    cursor: pointer; /* Curseur pointeur */
+    font-weight: bold; /* Texte en gras */
+}
+
+/* Effet au survol du bouton */
+.submit-button:hover {
+    background-color: #850D98; /* Changement de couleur au survol */
+}

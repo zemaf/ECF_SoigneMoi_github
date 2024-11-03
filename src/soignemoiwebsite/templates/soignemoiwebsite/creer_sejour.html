@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load static %}
+
+<!-- rajout dans la balise 'head' de 'base.html' du lien vers le fichier CSS creer_sejour.css -->
+{% block css%} 
+	<link rel="stylesheet" href={% static 'css/creer_sejour.css'%}>
+{% endblock %}
+
+<!-- on ajoute le bloc correspondant au formulaire de création de séjour -->
+{% block content%} 
+	<body>
+		<h5 class="form-title">SÉJOUR</h5>
+	    <!-- Conteneur principal du formulaire -->
+	    <form>
+			<div class="form-container">
+	        <!-- Titre du formulaire -->
+	        
+	            <!-- Groupe de champs pour la date d'entrée -->
+	            <div class="form-group">
+	                <label for="date-entree">Date entrée</label>
+	                <input type="date" id="date-entree" class="date-input">
+	            </div>
+	            <!-- Groupe de champs pour la date de sortie -->
+	            <div class="form-group">
+	                <label for="date-sortie">Date sortie</label>
+	                <input type="date" id="date-sortie" class="date-input">
+	            </div>
+	            <!-- Groupe de champs pour le motif du séjour -->
+	            <div class="form-group">
+	                <label for="motif">Motif du séjour</label>
+	                <textarea id="motif" class="motif-input"></textarea>
+	            </div>
+	            <!-- Groupe de champs pour la spécialité -->
+	            <div class="form-group">
+	                <label for="specialite">Spécialité</label>
+	                <select id="specialite" class="text-input">
+	                    <option value="">Sélectionner</option>
+	                </select>
+	            </div>
+	            <!-- Groupe de champs pour le médecin -->
+	            <div class="form-group">
+	                <label for="medecin">Médecin</label>
+	                <select id="medecin" class="text-input">
+	                    <option value="">Sélectionner</option>
+	                </select>
+	            </div>
+	            
+	        </div>
+		    <!-- Bouton de soumission -->
+	            <button type="submit" class="submit-button">VALIDER</button>
+		</form>    
+</body>
+{% endblock %}
+
+
