@@ -99,6 +99,17 @@ label {
     font-weight: bold; /* Texte en gras */
 }
 
+.submit-dismissed {
+    display: block; /* Pour centrer l'élément */
+    width: 100px; /* Largeur identique */
+    margin: 20px auto; /* Marges pour le centrer */
+    padding: 10px; /* Même espacement interne */
+    border: none; /* Suppression de la bordure */
+    border-radius: 4px; /* Coins arrondis identiques */
+    font-weight: bold; /* Texte en gras */
+}
+
+
 /* Effet au survol du bouton */
 .submit-button:hover {
     background-color: #850D98; /* Changement de couleur au survol */

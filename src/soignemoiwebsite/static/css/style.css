@@ -10,9 +10,9 @@ header {
     padding: 15px 20px;
 }
 
-/*body>header>nav>div>div>ul>li>a{*/
-/*    color: white !important;*/
-/*}*/
+body>header>nav>div>div>ul>li>a{
+    color: white !important;
+}
 
 #img_header {
     width: 100px;
