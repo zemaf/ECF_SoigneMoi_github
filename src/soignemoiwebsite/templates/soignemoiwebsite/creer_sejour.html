@@ -47,7 +47,12 @@
 	            
 	        </div>
 		    <!-- Bouton de soumission -->
-	            <button type="submit" class="submit-button">VALIDER</button>
+		        {% if user.is_authenticated %}
+	                <button type="submit" class="submit-button">VALIDER</button>
+		        {% else %}
+			        <button type="submit" disabled>VALIDER</button>
+			        <p>Vous devez être connecté pour soumettre ce formulaire. <a href="#">Se connecter</a></p>
+		    {% endif %}
 		</form>    
 </body>
 {% endblock %}
