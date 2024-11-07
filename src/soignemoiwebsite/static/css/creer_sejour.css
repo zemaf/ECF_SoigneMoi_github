@@ -34,7 +34,7 @@ body {
     margin-bottom: 20px; /* Espacement en bas */
 }
 
-.date-input, .text-input, .motif-input {
+.date-input, .choix_specialite, .choix_medecin, .motif-input {
     grid-column: span 2; /* Alignement sur deux colonnes */
 }
 
@@ -63,7 +63,7 @@ label {
 }
 
 /* Style des champs de saisie et des sélecteurs */
-.text-input {
+.choix_specialite, .choix_medecin {
     width: 175px; /* Largeur */
     height: 44px; /* Hauteur */
     padding: 5px; /* Espacement interne */

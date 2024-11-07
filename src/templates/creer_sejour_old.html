@@ -1,0 +1,98 @@
+{% extends 'base.html' %}
+
+{% block content%} 
+	<h1>Choisissez votre séjour</h1>
+		<form method="POST">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<input id="fetch-call" type="submit" value="Créer séjour">
+		</form>
+
+<script>
+	document.addEventListener('DOMContentLoaded', function() {
+		document.getElementById('id_specialite').addEventListener('change', function() {
+            const specialiteId = this.value;
+	        let csrfTokenValue = document.querySelector("[name=csrfmiddlewaretoken]").value;
+	        const url = '{% url "soignemoiwebsite:ajax_load_medecins" %}';
+
+
+	        fetch(url, {
+	            method: 'POST',
+		        headers: {
+	                'content-type': 'application/json',
+			        'X-CSRFToken': csrfTokenValue,
+		        },
+		        body: JSON.stringify({specialite: specialiteId}) // il faut stringifier les données pour les exploiter
+	        })
+	        .then(response => response.json()) // Première instruction then
+	        .then(data => { // Seconde instruction then
+                console.log(data)
+	            const medecinSelect = document.getElementById('id_medecin');
+	            medecinSelect.innerHTML = '<option value="">---------</option>'; // affiche les tirets en attendant la sélection
+	            // On boucle sur le queryset medecins de la spécialité pour les afficher
+		        data.forEach(medecin => {
+	                medecinSelect.innerHTML += `<option value="${medecin.medecin_id}">${medecin.nom}</option>`;
+	            });
+	          });
+	        });
+        
+        {#document.addEventListener('DOMContentLoaded', function () {#}
+{#        document.getElementById('id_specialite').addEventListener('change', async function () {#}
+{#            var specialiteId = this.value;#}
+{#            var url = http://127.0.0.1:8000/ajax/load-medecins/?specialite=${specialiteId};#}
+{#            try {#}
+{#                const response = await fetch(url, {#}
+{#                    method: 'GET',#}
+{#                    headers: {#}
+{#                        'Content-Type': 'application/json'#}
+{#                    }#}
+{#                });#}
+{#                console.log(response)#}
+{##}
+{#                if (!response.ok) {#}
+{#                    throw new Error('Network response was not ok ' + response.statusText);#}
+{#                }#}
+{##}
+{#                const data = await response.json();#}
+{#                console.log(data);#}
+{#                var medecinSelect = document.getElementById('id_medecin');#}
+{#                medecinSelect.innerHTML = '';#}
+{##}
+{#                data.forEach(function (medecin) {#}
+{#                    var option = document.createElement('option');#}
+{#                    option.value = medecin.medecin_id;#}
+{#                    option.textContent = medecin.nom;#}
+{#                    medecinSelect.appendChild(option);#}
+{#                });#}
+{#            } catch (error) {#}
+{#                console.error('Probleme, veuillez réessayer:', error);#}
+{#            }#}
+{#        });#}
+{#    });#}
+        
+        
+	    // on va maintenant récupérer l'id du médecin sélectionné pour checker son nb de patients
+	    {#document.getElementById('id_medecin').addEventListener('change', function (){#}
+	    {#            const medecinId = this.value;#}
+	    {#            let csrfTokenValue = document.querySelector("[name=csrfmiddlewaretoken]").value;#}
+	    {#            const checkUrl = '{% url "soignemoiwebsite:check_nb_patients" %}';#}
+	    {##}
+	    {#            fetch(checkUrl, {#}
+	    {#                method: 'POST',#}
+		{#                headers: {#}
+	    {#                    'content-type': 'application/json',#}
+	    {#                    'X-CSRFToken': csrfTokenValue,#}
+	    {#                },#}
+	    {#                body: JSON.stringify({medecin: medecinId}) // Envoie l'ID du médecin au serveur#}
+	    {#            })#}
+		{#                .then(response => response.json())#}
+		{#                .then(data => {#}
+	    {#                    console.log(data);#}
+		{#                });#}
+	    {#            });#}
+    });
+</script>
+
+{% endblock %}
+
+
