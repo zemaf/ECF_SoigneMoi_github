@@ -59,7 +59,7 @@
 	                <button type="submit" class="submit-button">VALIDER</button>
 		        {% else %}
 			        <button type="submit" class="submit-dismissed" disabled>VALIDER</button>
-			        <p>Vous devez être connecté pour soumettre ce formulaire. <a href="#">Se connecter</a></p>
+			        <p>Vous devez être connecté pour soumettre ce formulaire. <a href={% url 'soignemoiwebsite:login' %}>Se connecter</a></p>
 		    {% endif %}
 		</form>   
 	<script>

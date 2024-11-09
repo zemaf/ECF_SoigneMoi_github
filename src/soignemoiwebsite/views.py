@@ -1,7 +1,7 @@
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import TemplateView, CreateView
 
@@ -25,8 +25,12 @@ class CreerSejourView(CreateView):
         return context
 
     def form_valid(self, form):
-        # Associe l'utilisateur connecté au champ `user` du séjour
-        form.instance.user = self.request.user
+        # Django ne reconnait pas self.request.user comme une instance Patient mais comme CustomUser
+        # dont hérite Patient → on récupère l'id de 'request.user' pour créer une instance Patient qui sera utilisée
+        #  pour créer le séjour.
+        #  Il aurait fallu lier Patient et CustomUser avec une relation One-To-One dès le départ
+        patient_instance = get_object_or_404(Patient, id=self.request.user.id)
+        form.instance.user = patient_instance  # Assigne le patient comme utilisateur du séjour
         return super().form_valid(form)
 
 
@@ -73,7 +77,6 @@ def login_user(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        print(email, password)
         user = authenticate(request, email=email, password=password)
         if user:
             print("user connecté")
@@ -82,5 +85,12 @@ def login_user(request):
         else:
             print("user non connecté")
     return render(request, 'soignemoiwebsite/login.html')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('soignemoiwebsite:home')
+
+
 
 
