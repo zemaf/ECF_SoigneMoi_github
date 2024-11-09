@@ -1,0 +1,78 @@
+h5 {
+    text-align: center;
+}
+#conteneur_form_register {
+    display: flex;
+    justify-content: center;
+}
+
+#form_register {
+    background-color: #850D98;
+    width: 819px;
+    height:300px;
+}
+
+#conteneur_identity {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+}
+
+#genre {
+    width: 50px;
+}
+
+#nom {
+
+}
+
+#prenom {
+
+}
+
+
+#conteneur_adresse {
+    display: flex;
+    justify-content: center;
+}
+
+#adresse {
+    text-align: center;
+    width: 600px;
+    margin-bottom: 20px;
+}
+
+#conteneur_email {
+    display: flex;
+    justify-content: center;
+}
+
+#email {
+    text-align: center;
+    width: 400px;
+    margin-bottom: 20px;
+}
+
+#conteneur_password {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+#password {
+    width: 300px;
+    text-align: center;
+}
+
+#password_confirm {
+    width: 300px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+#conteneur_submit {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}

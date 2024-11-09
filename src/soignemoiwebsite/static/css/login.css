@@ -1,0 +1,22 @@
+h4 {
+    text-align: center;
+    margin-top: 20px;
+}
+
+p {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+}
+
+#email_user {
+    display: flex;
+    justify-content: space-evenly;
+    margin: 20px;
+}
+
+#conteneur_submit {
+    display: flex;
+    justify-content: center;
+    margin: 20px;
+}

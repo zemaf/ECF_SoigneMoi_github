@@ -26,13 +26,13 @@
                 <div class="collapse navbar-collapse">
                     <ul class="navbar-nav ms-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Connexion</a>
+                            <a class="nav-link" href={% url 'soignemoiwebsite:login' %}>Connexion</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Accueil</a>
+                            <a class="nav-link" href={% url 'soignemoiwebsite:home' %}>Accueil</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Je crée mon compte</a>
+                            <a class="nav-link" href={% url 'soignemoiwebsite:register' %}>Je crée mon compte</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href={% url 'soignemoiwebsite:creer_sejour' %}>Je crée mon séjour</a>

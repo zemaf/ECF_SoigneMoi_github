@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+<{% load static %}
+{% block title%} 
+	<title>Se Connecter</title>
+{% endblock %}
+
+{% block css%} 
+	<link rel="stylesheet" href={% static 'css/login.css'%}>
+{% endblock %}
+
+{% block content %}
+	<h4>ACCÈS À MON COMPTE</h4>
+	<form method="POST" autocomplete="off">
+		{% csrf_token %}
+		<p>
+			<input id="email_user" type="text" name="email" placeholder="Mon adresse mail" >
+		</p>
+		<p>
+			<input id="password_user" type="password" name="password" placeholder="Mon mot de passe" >
+		</p>
+		<div id="conteneur_submit">
+			<button id="login_submit" type="submit">Je me connecte</button>
+		</div>
+	</form>
+{% endblock %}

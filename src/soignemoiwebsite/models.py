@@ -92,10 +92,11 @@ class Sejour(models.Model):
     medecin = models.ForeignKey(Medecin, on_delete=models.CASCADE)
 
     def clean(self):
-        if self.date_entree >= self.date_sortie:
-            raise ValidationError({
-                "date_sortie": "La date de sortie doit être postérieure à l'entrée!"
-            })
+        if self.date_entree and self.date_sortie:
+            if self.date_entree >= self.date_sortie:
+                raise ValidationError("La date de sortie doit être postérieure à la date d'entrée.")
+        else:
+            print("aucune date enregistrée!")
 
     def __str__(self):
         return f" Séjour de {self.user}, du {self.date_entree} au {self.date_sortie}, en {self.specialite}."

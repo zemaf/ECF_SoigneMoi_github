@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title%} 
+	<title>Créer un compte</title>
+{% endblock %}
+
+{% block css%} 
+	<link rel="stylesheet" href={% static 'css/register.css'%}>
+{% endblock %}
+
+{% block content%} 
+	<body>		
+		<h5>CREER VOTRE COMPTE</h5>	
+		{% if messages %}
+            <div id="messages">
+                {% for message in messages %}
+                    <div class="alert {{ message.tags }}">{{ message }}</div>
+                {% endfor %}
+             </div>
+		{% endif %}
+		<form method="POST" action="#">
+			{% csrf_token %}
+			<!-- on crée une div pour centrer le formulaire sur la page -->
+			<div id="conteneur_form_register">
+				<div id="form_register">
+					<div id="conteneur_identity">
+						<input type="text" id="genre" name="genre" placeholder="genre">
+						<input type="text" id="nom" name="nom" placeholder="Nom">						
+						<input type="text" id="prenom" name="prenom" placeholder="Prénom">
+					</div>
+					
+					<div id="conteneur_adresse">
+						<input type="text" id="adresse" name="adresse" placeholder="Adresse Postale">
+					</div>
+					
+					<div id="conteneur_email">
+						<input type="email" id="email" name="email" placeholder="email">
+					</div>
+					
+					<div id="conteneur_password">
+						<input type="password" id="password" name="password" placeholder="Mot de passe">
+                        <input type="password" id="password_confirm" name="password_confirm" placeholder="Confirmer le mot de passe">
+					</div>
+				</div>					
+			</div>
+			 <div id="conteneur_submit">
+				 <button type="submit" id="submit">créer</button>
+			 </div>
+			
+		</form>
+	</body>
+{% endblock %}
