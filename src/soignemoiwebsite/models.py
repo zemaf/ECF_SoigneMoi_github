@@ -73,10 +73,6 @@ class Avis(models.Model):
 
     class Meta:
         verbose_name_plural = "Avis"  # on override le rajout du "s" (pluriel donnerait Aviss!) dans l'interface admin
-        # # clé primaire composée des champs user et avis_id
-        # constraints = [
-        #     models.UniqueConstraint(fields=["avis_id", "user"], name="unique_user_avis_id")
-        # ]
 
     def __str__(self):
         return f"Avis rendu le {self.date} pour {self.user_id} "
@@ -99,4 +95,5 @@ class Sejour(models.Model):
             print("aucune date enregistrée!")
 
     def __str__(self):
-        return f" Séjour de {self.user}, du {self.date_entree} au {self.date_sortie}, en {self.specialite}."
+        return (f" Séjour du {self.date_entree} au {self.date_sortie}, "
+                f"avec {self.medecin}.")

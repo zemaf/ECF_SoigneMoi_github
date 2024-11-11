@@ -1,5 +1,6 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy
@@ -11,6 +12,15 @@ from soignemoiwebsite.models import Medecin, Specialite, Sejour, Patient
 
 class SoigneMoiWebsiteView(TemplateView):
     template_name = 'soignemoiwebsite/accueil.html'
+
+
+class SejourView(LoginRequiredMixin, TemplateView):
+    template_name = 'soignemoiwebsite/profile.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["sejours"] = Sejour.objects.filter(user=self.request.user)
+        return context
 
 
 class CreerSejourView(CreateView):
@@ -81,7 +91,7 @@ def login_user(request):
         if user:
             print("user connecté")
             login(request, user)
-            return redirect('soignemoiwebsite:home')
+            return redirect('soignemoiwebsite:profile')
         else:
             print("user non connecté")
     return render(request, 'soignemoiwebsite/login.html')
@@ -90,6 +100,9 @@ def login_user(request):
 def logout_user(request):
     logout(request)
     return redirect('soignemoiwebsite:home')
+
+
+
 
 
 

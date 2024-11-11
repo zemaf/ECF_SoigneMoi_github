@@ -1,0 +1,44 @@
+h5 {
+    text-align: center;
+}
+#conteneur_liste_sejours {
+    background-color: #0F90D9;
+    display: flex;
+    flex-direction: column;
+    width: 1200px;
+    height:800px;
+    font-size: 14px;
+}
+
+#label_row {
+    display: flex;
+    width: 1000px;
+    margin-left:15px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+label {
+    background-color: white;
+    width: 200px;
+    font-weight: bold;
+}
+
+#liste_sejours {
+    display: flex;
+    margin-left: 15px;
+    width: 1000px;
+}
+
+#data {
+    display: flex;
+    flex-direction: column;
+    color: black;
+    width: 200px;
+}
+
+p {
+    background-color: #FAEDFA;
+    margin-bottom: 20px;
+}
+

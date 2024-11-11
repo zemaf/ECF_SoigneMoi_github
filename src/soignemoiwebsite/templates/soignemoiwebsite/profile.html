@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title%} 
+	<title>Mon Compte Personnel</title>
+{% endblock %}
+
+{% block css%} 
+	<link rel="stylesheet" href={% static 'css/profile.css'%}>
+{% endblock %}
+
+{% block content%} 
+	<body>		
+		<h5>MES SÉJOURS</h5>	
+		
+		<form method="GET">
+			{% csrf_token %}
+			<!-- on crée une div pour centrer le formulaire sur la page -->
+		<div id="conteneur_liste_sejours">
+			<div id="label_row">
+				<label for="date_entree">Date d'entrée</label>
+				<label for="date_sortie">Date de sortie</label>
+				<label for="specialite">Spécialité</label>
+				<label for="medecin">Médecin</label>
+			</div>
+			<div id="liste_sejours">				
+					<div id="data">		
+						{% for sejour in sejours %}
+							<p id="date_entree">{{ sejour.date_entree }}</p>
+						{% endfor %}
+					</div>
+					<div id="data">
+						{% for sejour in  sejours%}
+							<p id="date_sortie">{{ sejour.date_sortie }}</p>
+						{% endfor %}
+					</div>
+					<div id="data">
+						{% for sejour in  sejours%}
+							<p id="specialite">{{ sejour.specialite }}</p>
+						{% endfor %}						
+					</div>
+					<div id="data">	
+						{% for sejour in sejours %}
+							<p id="medecin">Dr {{ sejour.medecin.nom }}</p>
+						{% endfor %}
+						
+					</div>
+			</div>
+		</div>
+		</form>
+	</body>
+{% endblock %}
