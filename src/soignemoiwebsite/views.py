@@ -1,3 +1,9 @@
+import json
+from datetime import timedelta
+
+from django.core.exceptions import ValidationError
+from django.utils import timezone
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -26,7 +32,7 @@ class SejourView(LoginRequiredMixin, TemplateView):
 class CreerSejourView(CreateView):
     model = Sejour
     form_class = SejourForm
-    template_name = 'soignemoiwebsite/creer_sejour.html'
+    template_name = 'soignemoiwebsite/creer_sejour_check_patient.html'
     success_url = reverse_lazy('soignemoiwebsite:home')
 
     def get_context_data(self, **kwargs):
@@ -35,12 +41,15 @@ class CreerSejourView(CreateView):
         return context
 
     def form_valid(self, form):
-        # Django ne reconnait pas self.request.user comme une instance Patient mais comme CustomUser
-        # dont hérite Patient → on récupère l'id de 'request.user' pour créer une instance Patient qui sera utilisée
-        #  pour créer le séjour.
-        #  Il aurait fallu lier Patient et CustomUser avec une relation One-To-One dès le départ
-        patient_instance = get_object_or_404(Patient, id=self.request.user.id)
-        form.instance.user = patient_instance  # Assigne le patient comme utilisateur du séjour
+        sejour = form.save(commit=False)
+        try:
+            # Django ne reconnait pas request.user comme une instance Patient, nécessaire à la création du séjour.
+            # On appelle donc la méthode assign_patient du modèle séjour pour lier l'instance Patient au séjour créé.
+            sejour.assign_patient(self.request.user)
+        except ValidationError as e:
+            messages.error(self.request, str(e))
+            return self.form_invalid(form)
+
         return super().form_valid(form)
 
 
@@ -55,6 +64,34 @@ def get_medecins_par_specialite(request, specialite_id):
     # django s'attendant à un dictionnaire en paramètre de JsonResponse, comme c'est une liste, on lui indique
     # de s'attendre à autre chose avec safe=False
     return JsonResponse(list(medecins), safe=False)
+
+
+def new_get_medecins_par_specialite(request, specialite_id):
+    if request.method != 'POST':
+        return JsonResponse({'error': 'Invalid request method. POST required.'}, status=400)
+    medecins_disponibles = []
+    if request.method == 'POST':
+        body = json.loads(request.body)
+        date_entree_str = body.get('date_entree')
+        date_entree = timezone.datetime.strptime(date_entree_str, "%Y-%m-%d").date()
+
+        for medecin in Medecin.objects.filter(specialite_id=specialite_id):
+            # Logique de disponibilité sur la date d'entrée et date d'entrée + 1
+            disponibilites = medecin.get_disponibilites(date_entree)
+            if disponibilites:
+                medecins_disponibles.append({
+                    'id': medecin.id,
+                    'nom': medecin.nom,
+                    'prenom': medecin.prenom,
+                    'disponible_le': disponibilites[0].strftime("%d %B %Y")  # Utilise la première date disponible
+                })
+                print(medecins_disponibles)
+
+    # Préparer les données JSON pour la réponse
+    data = {
+        'medecins_disponibles': medecins_disponibles
+    }
+    return JsonResponse(data)
 
 
 class RegisterView(CreateView):

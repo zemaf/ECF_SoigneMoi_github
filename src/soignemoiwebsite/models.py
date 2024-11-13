@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.core.exceptions import ValidationError
 from django.db import models
 
@@ -47,6 +49,29 @@ class Medecin(CustomUser):
     def __str__(self):
         return f"Dr {self.nom} {self.prenom}, spécialité : {self.specialite}"
 
+    def get_disponibilites(self, date_entree):
+        """
+        Vérifie la disponibilité du médecin pour date_entree et date_entree +1 jour.
+         Si ne trouve rien, cherche à +2 et +3 jours et retourne les dates de disponibilité.
+        """
+        disponibilites = []
+        for offset in [0, 1]:
+            date_intervention = date_entree + timedelta(days=offset)
+            nb_patients = Sejour.objects.filter(medecin=self, date_entree=date_intervention).count()
+
+            if nb_patients < 5:
+                disponibilites.append(date_intervention)
+                break
+            else:
+                for offset in range(2, 4):
+                    date_intervention = date_entree + timedelta(days=offset)
+                    nb_patients = Sejour.objects.filter(medecin=self, date_entree=date_intervention).count()
+
+                    if nb_patients < 5:
+                        disponibilites.append(date_intervention)
+                        break
+        return disponibilites
+
 
 class Prescription(models.Model):
     prescription_id = models.AutoField(primary_key=True)
@@ -93,6 +118,20 @@ class Sejour(models.Model):
                 raise ValidationError("La date de sortie doit être postérieure à la date d'entrée.")
         else:
             print("aucune date enregistrée!")
+
+    def assign_patient(self, user):
+        """
+        On s'assure d'assigner explicitement une instance de Patient à user, car Patient et CustomUser ne sont pas liés
+        par une relation OneToOne, juste par un héritage. Django ne reconnaitra ainsi pas user comme une instance Patient
+        mais comme CustomUser → on récupère l'id de 'user' pour créer une instance Patient qui sera utilisée
+        pour créer le séjour dans la vue CreateSejourView
+
+        """
+        try:
+            patient_instance = Patient.objects.get(id=user.id)
+            self.user = patient_instance
+        except Patient.DoesNotExist:
+            raise ValidationError("L'utilisateur n'est pas un patient valide.")
 
     def __str__(self):
         return (f" Séjour du {self.date_entree} au {self.date_sortie}, "

@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    <title>Créer un séjour</title>
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'css/creer_sejour.css' %}">
+{% endblock %}
+
+{% block content %}
+<body>
+	{% if form.errors %}
+    <div class="errors">
+        <ul>
+            {% for field, errors in form.errors.items %}
+                {% for error in errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+    <h5 class="form-title">SÉJOUR</h5>
+    <form method="POST">
+        {% csrf_token %}
+        <div class="form-container">
+            <!-- Date d'entrée -->
+            <div class="form-group">
+                <label for="date-entree">Date entrée</label>
+                <input type="date" name="date_entree" id="date-entree" class="date-input" >
+            </div>
+
+            <!-- Date de sortie -->
+            <div class="form-group">
+                <label for="date-sortie">Date sortie</label>
+                <input type="date" name="date_sortie" id="date-sortie" class="date-input">
+            </div>
+
+            <!-- Motif du séjour -->
+            <div class="form-group">
+                <label for="motif">Motif du séjour</label>
+                <textarea id="motif" name="motif" class="motif-input" placeholder="Veuillez indiquer la raison du séjour svp"></textarea>
+            </div>
+
+            <!-- Choix de la spécialité -->
+            <div class="form-group">
+                <label for="choix_specialite">Choisissez une spécialité :</label>
+                <select id="choix_specialite" name="specialite">
+                    <option value="" selected disabled>-- Sélectionnez une spécialité --</option>
+                    {% for specialite in specialites %}
+                        <option value="{{ specialite.specialite_id }}">{{ specialite.nom }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Choix du médecin -->
+            <div class="form-group">
+                <label for="choix_medecin">Choisissez un médecin :</label>
+                <select id="choix_medecin" name="medecin">
+                    <option value="">-- --</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Bouton de soumission -->
+        {% if user.is_authenticated %}
+            <button type="submit" class="submit-button">VALIDER</button>
+        {% else %}
+            <button type="submit" class="submit-dismissed" disabled>VALIDER</button>
+            <p>Vous devez être connecté pour soumettre ce formulaire. <a href="{% url 'soignemoiwebsite:login' %}">Se connecter</a></p>
+        {% endif %}
+    </form>
+
+    <div id="alert-container"></div>
+
+    <script>
+        document.getElementById('choix_specialite').addEventListener('change', updateMedecinList);
+        document.getElementById('date-entree').addEventListener('change', updateMedecinList);
+		async function updateMedecinList() {
+    const specialiteId = document.getElementById('choix_specialite').value;
+    const dateEntree = document.getElementById('date-entree').value;
+    const medecinSelect = document.getElementById('choix_medecin');
+    const alertContainer = document.getElementById('alert-container');
+
+    if (specialiteId && dateEntree) {
+        try {
+            const url = `/soignemoi/get_medecins/${specialiteId}/`
+	        const response = await fetch(url, 
+		        {
+                    method: 'POST',
+		            headers: {'Content-Type': 'application/json', 
+			            'X-CSRFToken': '{{ csrf_token }}'
+		        },
+			        body: JSON.stringify({date_entree:dateEntree})
+                });
+            if (!response.ok) {
+                    throw new Error('Erreur lors de la récupération des médecins');
+                }
+            const data = await response.json();
+            
+            medecinSelect.innerHTML = '<option value="">-- --</option>';
+            alertContainer.innerHTML = ''; // Effacer les alertes précédentes
+            
+            if (data.medecins_disponibles.length > 0) {
+                data.medecins_disponibles.forEach(item => {
+                    const option = document.createElement('option');
+                    if (Array.isArray(item)) {
+                        option.value = item[0].id;
+                        option.text = `Dr ${item[0].nom} ${item[0].prenom} (disponible le ${item[1]})`;
+                        alertContainer.innerHTML += `<p>Dr ${item[0].nom} ${item[0].prenom} est disponible le ${item[1]}</p>`;
+                    } else {
+                        option.value = item.id;
+                        option.text = `Dr ${item.nom} ${item.prenom}`;
+                    }
+                    medecinSelect.appendChild(option);
+                });
+            } else {
+                alertContainer.innerHTML = `<p>Aucun médecin disponible pour cette date. Veuillez sélectionner une autre date ou spécialité.</p>`;
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des médecins disponibles :", error);
+        }
+    }
+}
+        
+    </script>
+</body>
+{% endblock %}
