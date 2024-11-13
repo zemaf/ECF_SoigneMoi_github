@@ -1,5 +1,5 @@
 from django import forms
-from .models import Sejour, Patient
+from .models import Sejour, Patient, Specialite, Medecin
 
 
 class SejourForm(forms.ModelForm):
