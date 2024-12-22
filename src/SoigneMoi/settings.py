@@ -44,8 +44,31 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'soignemoiwebsite',
     'accounts',
-
+    'api',
+    'rest_framework',
+    'rest_framework.authtoken',
 ]
+
+AUTHENTICATION_BACKENDS = [
+    # 'accounts.authentication.CustomAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+
+# Configuration Django Rest Framework
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+    'DEFAULT_RENDERER_CLASSES': [
+        'rest_framework.renderers.JSONRenderer',
+
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

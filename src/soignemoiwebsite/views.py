@@ -2,6 +2,7 @@ import json
 from datetime import timedelta
 
 from django.core.exceptions import ValidationError
+from django.db import transaction
 from django.utils import timezone
 
 from django.contrib import messages
@@ -21,6 +22,9 @@ class SoigneMoiWebsiteView(TemplateView):
 
 
 class SejourView(LoginRequiredMixin, TemplateView):
+    """
+    Affiche une page avec une liste des sejours de l'utilisateur connecté
+    """
     template_name = 'soignemoiwebsite/profile.html'
 
     def get_context_data(self, **kwargs):
@@ -33,7 +37,7 @@ class CreerSejourView(CreateView):
     model = Sejour
     form_class = SejourForm
     template_name = 'soignemoiwebsite/creer_sejour_check_patient.html'
-    success_url = reverse_lazy('soignemoiwebsite:home')
+    success_url = reverse_lazy('soignemoiwebsite:profile')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data()
@@ -41,14 +45,19 @@ class CreerSejourView(CreateView):
         return context
 
     def form_valid(self, form):
-        sejour = form.save(commit=False)
-        try:
-            # Django ne reconnait pas request.user comme une instance Patient, nécessaire à la création du séjour.
-            # On appelle donc la méthode assign_patient du modèle séjour pour lier l'instance Patient au séjour créé.
-            sejour.assign_patient(self.request.user)
-        except ValidationError as e:
-            messages.error(self.request, str(e))
-            return self.form_invalid(form)
+        # Encapsuler toute la logique de création dans une transaction
+        with transaction.atomic():
+            sejour = form.save(commit=False)
+            try:
+                # request.user doit être de type "Patient" sinon pas reconnu comme tel par django (cf modèle Sejour)
+                sejour.assign_patient(self.request.user)
+                # Toutes autres validations spécifiques à la vue peuvent être faites ici
+            except ValidationError as e:
+                messages.error(self.request, str(e))
+                return self.form_invalid(form)
+
+            # Sauvegarde finale du séjour
+            sejour.save()
 
         return super().form_valid(form)
 

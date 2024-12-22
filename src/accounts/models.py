@@ -75,7 +75,7 @@ class CustomUser(AbstractBaseUser):  # modèle de base à compléter et comprena
         verbose_name = "Utilisateur"
 
     def has_perm(self, perm, obj=None):
-        return True
+        return self.is_admin
 
     def has_module_perms(self, app_label):
-        return True
+        return self.is_admin
