@@ -4,16 +4,17 @@ from django.core.exceptions import ValidationError
 from soignemoiwebsite.models import Patient
 
 
-# @pytest.fixture
-# def custom_user(db):
-#     adresse_malicious = "1234'; DROP TABLE Addresses;--"
-#     return Patient(
-#         genre="M",
-#         nom="<script>alert('Hacked!');</script>",
-#         prenom="Jean",
-#         adresse=adresse_malicious,
-#         email="test@example.com"
-#     )
+@pytest.fixture
+def custom_user(db):
+    # On crée un user pour les besoins des tests avec create_user pour s'assurer du chiffrement du mot de passe.
+    return Patient.objects.create_user(
+        genre="M",
+        nom="Mouloud",
+        prenom="Jean",
+        adresse="Quelque part en Europe",
+        email="test@example.com",
+        password="123456"
+    )
 
 
 # on peut utiliser une autre méthode que les fixtures avec mark.django_db
@@ -43,3 +44,7 @@ def test_adresse_regex():
         "Mauvais format d'adresse"]
     assert exc_info.value.message_dict["nom"] == ["Le prénom ne peut contenir que des lettres, "
                                                   "espaces, apostrophes ou des tirets."]
+
+
+def test_hachage_password(custom_user):
+    assert custom_user.password.startswith("pbkdf2_")
