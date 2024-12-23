@@ -1,4 +1,3 @@
-from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.core.validators import RegexValidator
 from django.db import models
@@ -76,7 +75,7 @@ class CustomUser(AbstractBaseUser):  # modèle de base à compléter et comprena
     def save(self, *args, **kwargs):
         # Si le mot de passe n'est pas chiffré, on le chiffre.
         if self.pk is None or not self.password.startswith('pbkdf2_'):
-            self.password = make_password(self.password)
+            self.set_password(self.password)  # la méthode set_password est liée à AbstractBaseUser donc appelable ici.
         super().save(*args, **kwargs)
 
     class Meta:
