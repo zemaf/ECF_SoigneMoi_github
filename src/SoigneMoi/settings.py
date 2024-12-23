@@ -65,8 +65,8 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     ],
     'DEFAULT_RENDERER_CLASSES': [
-        'rest_framework.renderers.JSONRenderer',
-
+        'rest_framework.renderers.JSONRenderer',  # permet l'interface json dans le navigateur, n'affiche rien sinon
+        'rest_framework.renderers.BrowsableAPIRenderer',  # permet l'interface HTML dans le navigateur
     ]
 }
 
