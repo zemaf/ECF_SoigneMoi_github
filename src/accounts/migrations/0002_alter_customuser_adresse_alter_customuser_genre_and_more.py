@@ -14,7 +14,9 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='adresse',
-            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator(message='Le prénom ne peut contenir que des lettres, espaces, apostrophes ou des tirets.', regex="^[A-Za-zÀ-ÖØ-öø-ÿ0-9'’,.\\s]+$")]),
+            field=models.CharField(max_length=100, validators=[django.core.validators.RegexValidator(
+                message='Le prénom ne peut contenir que des lettres, espaces, apostrophes ou des tirets.',
+                regex="^[A-Za-zÀ-ÖØ-öø-ÿ0-9'’,.\\s]+$")]),
         ),
         migrations.AlterField(
             model_name='customuser',
@@ -24,7 +26,10 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='customuser',
             name='nom',
-            field=models.CharField(help_text='uniquement lettres, espaces, apostrophes ou des tirets.', max_length=50, validators=[django.core.validators.RegexValidator(message='Le prénom ne peut contenir que des lettres, espaces, apostrophes ou des tirets.', regex="^[A-Za-zÀ-ÖØ-öø-ÿ'’-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ'’-]+)*$")]),
+            field=models.CharField(help_text='uniquement lettres, espaces, apostrophes ou des tirets.',
+                                   max_length=50, validators=[django.core.validators.RegexValidator(
+                    message='Le prénom ne peut contenir que des lettres, espaces, apostrophes ou des tirets.',
+                    regex="^[A-Za-zÀ-ÖØ-öø-ÿ'’-]+(?: [A-Za-zÀ-ÖØ-öø-ÿ'’-]+)*$")]),
         ),
         migrations.AlterField(
             model_name='customuser',

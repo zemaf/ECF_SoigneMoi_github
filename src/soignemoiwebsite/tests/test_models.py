@@ -128,7 +128,7 @@ def test_sejour_clean_method(patient, medecin, specialite):
     )
     with pytest.raises(ValidationError) as e:
         sejour.clean()
-    assert "La date de sortie doit être postérieure à l'entrée!" in str(e.value)
+    assert "La date de sortie doit être postérieure à la date d'entrée" in str(e.value)
 
 
 def test_avis_multiples_meme_patient(patient, medecin):

@@ -1,6 +1,10 @@
+import logging
+
+import django
 import pytest
+from django.db import connection
 from django.urls import reverse
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model, authenticate, get_backends
 from django.utils import timezone
 from soignemoiwebsite.models import Sejour, Medecin, Specialite, Patient
 from django.test import Client
@@ -9,7 +13,14 @@ from datetime import timedelta
 
 @pytest.fixture
 def user(db):
-    return Patient.objects.create_user(email='test@example.com', password='testpassword')
+    return Patient.objects.create_user(
+        email="marius@example.com",
+        password="oyeoye",
+        nom="Dupont",
+        prenom="Jean",
+        adresse="123 Rue Exemple",
+        genre="M",
+    )
 
 
 @pytest.fixture
@@ -26,11 +37,33 @@ def medecin(db, specialite):
     )
 
 
+# fixture client sans utiliser force_login
+# @pytest.fixture
+# def client(user):
+#     client = Client()
+#     client.login(username=user.email, password="<PASSWORD>")
+#     return client
+
+
 @pytest.fixture
 def client(user):
+    """
+    D'une manière générale, on va utiliser force_login pour tester tout ce qui ne touche pas à la connexion en soi.
+    On s'épargne ainsi tous les problèmes éventuels liés à la connexion.
+    """
     client = Client()
-    client.login(email=user.email, password='testpassword')
+    client.force_login(user)
     return client
+
+
+def test_hachage_password(user):
+    assert user.password.startswith("pbkdf2_")
+    assert user.check_password("oyeoye"), "Password hash mismatch"
+
+
+def test_authenticate_user(user):
+    authenticated_user = authenticate(email=user.email, password='oyeoye')
+    assert authenticated_user is not None, "Authentication failed"
 
 
 def test_soignemoiwebsite_view(client):
@@ -40,7 +73,8 @@ def test_soignemoiwebsite_view(client):
     assert 'soignemoiwebsite/accueil.html' in [t.name for t in response.templates]
 
 
-def test_sejour_view(client, user):
+def test_sejour_view(client: Client, user):
+    client.login(email=user.email, password="oyeoye")
     url = reverse('soignemoiwebsite:profile')
     response = client.get(url)
     assert response.status_code == 200
@@ -55,7 +89,7 @@ def test_creer_sejour_view_get(client):
 
 
 def test_creer_sejour_view_post(client, user, specialite, medecin):
-    client.login(email=user.email, password='testpassword')
+    client.login(email=user.email, password="oyeoye")
     url = reverse('soignemoiwebsite:creer_sejour')
     date_entree = timezone.now().date()
     data = {
@@ -98,10 +132,12 @@ def test_register_view_post(client):
     assert Patient.objects.filter(email='newuser@example.com').exists()
 
 
-def test_login_user(client):
+def test_login_user(client, user):
+    client.login(email=user.email, password="oyeoye")
     url = reverse('soignemoiwebsite:login')
-    response = client.post(url, {'email': 'test@example.com', 'password': 'testpassword'})
-    assert response.status_code == 302
+    data = {'email': user.email, 'password': "oyeoye"}
+    response = client.post(url, data)
+    assert response.status_code == 302, "login did not redirect as expected"
     assert response.url == reverse('soignemoiwebsite:profile')
 
 

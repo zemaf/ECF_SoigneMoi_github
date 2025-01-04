@@ -1,4 +1,5 @@
 import json
+import logging
 from datetime import timedelta
 
 from django.core.exceptions import ValidationError
@@ -135,12 +136,31 @@ def login_user(request):
         password = request.POST.get('password')
         user = authenticate(request, email=email, password=password)
         if user:
-            print("user connecté")
+            print(f"user : {user.nom} connecté")
             login(request, user)
             return redirect('soignemoiwebsite:profile')
         else:
             print("user non connecté")
     return render(request, 'soignemoiwebsite/login.html')
+
+
+# logger = logging.getLogger('django-auth')
+
+
+# def login_user(request):
+#     if request.method == 'POST':
+#         email = request.POST.get('email')
+#         password = request.POST.get('password')
+#         logger.debug(f"Tentative de connexion pour {email}")
+#         user = authenticate(request, email=email, password=password)
+#         if user:
+#             logger.debug(f"Connexion réussie pour {email}")
+#             login(request, user)
+#             return redirect('soignemoiwebsite:profile')
+#         else:
+#             logger.error(f"Échec de connexion pour {email}")
+#             return render(request, 'soignemoiwebsite/login.html', {'error': 'Identifiants invalides'})
+#     return render(request, 'soignemoiwebsite/login.html')
 
 
 def logout_user(request):

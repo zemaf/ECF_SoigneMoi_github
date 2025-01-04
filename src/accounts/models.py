@@ -74,7 +74,7 @@ class CustomUser(AbstractBaseUser):  # modèle de base à compléter et comprena
     # on surcharge save pour s'assurer du hachage du mot de passe en toute circonstance
     def save(self, *args, **kwargs):
         # Si le mot de passe n'est pas chiffré, on le chiffre.
-        if self.pk is None or not self.password.startswith('pbkdf2_'):
+        if self.pk is None and not self.password.startswith('pbkdf2_'):
             self.set_password(self.password)  # la méthode set_password est liée à AbstractBaseUser donc appelable ici.
         super().save(*args, **kwargs)
 

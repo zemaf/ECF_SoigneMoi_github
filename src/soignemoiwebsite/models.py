@@ -13,11 +13,15 @@ class Administrateur(CustomUser):
         return f"{self.nom} {self.prenom}"
 
 
-class Patient(CustomUser):
-    # user_id = models.AutoField(primary_key=True)
+class Secretaire(CustomUser):
+    # on définit un attribut pour pouvoir identifier une secrétaire rapidement
+    is_secretaire = models.BooleanField(default=True)
 
-    # class Meta:
-    #     verbose_name = "Visiteur"
+    def __str__(self):
+        return f"{self.nom} {self.prenom}"
+
+
+class Patient(CustomUser):
 
     def __str__(self):
         return f" {self.genre} {self.nom} {self.prenom}"
@@ -29,15 +33,6 @@ class Specialite(models.Model):
 
     def __str__(self):
         return f"{self.nom}"
-
-
-class Medicament(models.Model):
-    medicament_id = models.AutoField(primary_key=True)
-    nom = models.CharField(max_length=50)
-    posologie = models.TextField(max_length=255)
-
-    def __str__(self):
-        return f"Nom du médicament: {self.nom}"
 
 
 class Medecin(CustomUser):
@@ -86,6 +81,28 @@ class Prescription(models.Model):
 
     def __str__(self):
         return f" Ordonnance n°: {self.prescription_id} pour {self.user_id} par le Dr {self.medecin_id}."
+
+
+class Medicament(models.Model):
+    medicament_id = models.AutoField(primary_key=True)
+    nom = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Nom du médicament: {self.nom}"
+
+
+class PrescriptionMedicament(models.Model):
+    """
+    Lie une prescription à un médicament tout en ajoutant des champs spécifiques comme la posologie.
+    Ainsi chaque médicament aura une posologie unique dans chaque prescription.
+    """
+    prescriptionmedicament_id = models.AutoField(primary_key=True)
+    prescription = models.ForeignKey(Prescription, on_delete=models.CASCADE)
+    medicament = models.ForeignKey(Medicament, on_delete=models.CASCADE)
+    posologie = models.TextField(max_length=255)
+
+    def __str__(self):
+        return f"{self.medicament.nom} (Prescription {self.prescription.prescription_id}) - Posologie : {self.posologie}"
 
 
 class Avis(models.Model):
